@@ -1,0 +1,63 @@
+// Mapper Class
+
+import org.apache.hadoop.mapreduce.Mapper;
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.LongWritable;
+public class myMapper extends Mapper<LongWritable,Text,Text,IntWritable>{
+public void map (LongWritable key,Text value,Context con) throws
+IOException,InterruptedException{
+
+String[] words =value.toString().split(" ");
+for(String word:words) {
+con.write(new Text(word),new IntWritable(1));
+}
+}
+}
+
+
+// Reducer Class
+
+
+import org.apache.hadoop.mapreduce.Reducer;
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+public class myReducer extends Reducer<Text,IntWritable,Text,IntWritable>{
+public void reduce (Text word,Iterable<IntWritable> values,Context
+con) throws IOException,InterruptedException{
+
+int sum=0;
+for(IntWritable value:values) {
+sum+=value.get();
+}
+con.write(word,new IntWritable(sum));
+}
+}
+
+
+// Driver Class
+
+
+mport org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+public class myDriver {
+public static void main (String[] args) throws Exception {
+
+Configuration c = new Configuration();
+Job job=new Job(c,"Wordcount");
+job.setJarByClass(myDriver.class);
+job.setMapperClass(myMapper.class);
+job.setReducerClass(myReducer.class);
+job.setOutputKeyClass(Text.class);
+job.setOutputValueClass(IntWritable.class);
+FileInputFormat.addInputPath(job,new Path(args [0]));
+FileOutputFormat.setOutputPath(job,new Path(args[1]));
+System.exit(job.waitForCompletion(true)?0:1);
+}
