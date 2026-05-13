@@ -1,0 +1,45 @@
+hive
+create database flight_db;
+show databases;
+use flight_db;
+create table flight(
+    year INT,
+    month INT,
+    day INT,
+    day_of_week INT,
+    dep_time INT,
+    crs_dep_time INT,
+    arr_time INT,
+    crs_arr_time INT,
+    unique_carrier STRING,
+    flight_num STRING,
+    tail_num STRING,
+    actual_elapsed_time INT,
+    crs_elapsed_time INT,
+    air_time INT,
+    arr_delay INT,
+    dep_delay INT,
+    origin STRING,
+    dest STRING,
+    distance INT,
+    taxi_in INT,
+    taxi_out INT,
+    cancelled INT,
+    cancellation_code STRING,
+    diverted INT,
+    carrier_delay STRING,
+    weather_delay STRING,
+    nas_delay STRING,
+    security_delay STRING,
+    late_aircraft_delay STRING
+)
+row format delimited fields terminated by ',' stored as textfile;
+
+load data local inpath '/home/cloudera/Desktop/flight/flight_info.csv' into table flight;
+
+create index idx on table flight(day) as 'compact' with deferred rebuild;
+
+select day_of_week, avg(dep_delay) from flight group by day_of_week;
+
+start-dfs.sh
+start-yarn.sh
