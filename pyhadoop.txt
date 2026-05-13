@@ -24,3 +24,15 @@ current_count=count
 current_word=word
 if current_word==word:
 print("%s\t%s"%(current_word,current_count))
+
+
+
+// Commands
+
+1. Code in python
+2. start-dfs.sh
+   start-yarn.sh
+3. hdfs dfs -mkdir /3059
+4. hdfs  dfs -copyFromLocal /home/hduser/input.txt /3059
+5. hadoop jar /user/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.6.jar -input /3059/input.txt -output /output-final -mapper 'python3 PMapper.py' -reducer 'python3 PReducer.py'
+6. hdfs dfs -cat /output-final/part-00000
