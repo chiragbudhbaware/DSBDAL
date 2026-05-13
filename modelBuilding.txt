@@ -1,0 +1,140 @@
+import numpy as np
+import pandas as pd
+
+df = pd.read_csv("/content/CAR.csv")
+df
+
+df.shape
+
+df.isnull().sum()
+
+df['km_driven'] =df['km_driven'].fillna(df['km_driven'].mean())
+df.isnull().sum()
+
+df = df.dropna()
+
+df.isnull().sum()
+
+df.shape
+
+df.dtypes
+
+df.info()
+
+df
+
+df = df.drop('name',axis=1)
+df
+
+df = pd.get_dummies(df, drop_first=True)
+
+df.corr(numeric_only=True)
+
+df.corr()
+
+x = df[["transmission_Manual"]]
+y = df['selling_price']
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y,train_size=0.75)
+
+from sklearn.linear_model import LinearRegression
+reg = LinearRegression()
+reg.fit(x_train,y_train)
+
+reg.coef_
+
+reg.intercept_
+
+y_pred = reg.predict(x_test)
+y_pred
+
+from sklearn.metrics import mean_squared_error,root_mean_squared_error,mean_absolute_error, r2_score
+mse = mean_squared_error(y_test,y_pred)
+mae = mean_absolute_error(y_test,y_pred)
+r2 = r2_score(y_test,y_pred)
+rmse = root_mean_squared_error(y_test,y_pred)
+print(f"Mean Squared Error: {mse}")
+print(f"Mean Absolute Error: {mae}")
+print(f"R-squared: {r2}")
+print(f"Root Mean Squared Error: {rmse}")
+
+transmission = input("Enter transmission (Manual/Automatic): ")
+if transmission.lower() == "manual":
+    value = 1
+elif transmission.lower() =="Automatic":
+    value = 0
+else:
+    print("Invalid input. Please enter 'Manual' or 'Automatic'.")
+prediction = reg.predict([[value]])
+print("Predicted Selling Price:", prediction[0])
+
+x1 = df.drop('selling_price',axis=1)
+y1 = df['selling_price']
+
+from sklearn.model_selection import train_test_split
+x1_train,x1_test,y1_train,y1_test=train_test_split(x1,y1,train_size=0.7)
+
+from sklearn.linear_model import LinearRegression
+lr=LinearRegression()
+lr.fit(x1_train,y1_train)
+
+lr.coef_
+
+lr.intercept_
+
+y1_pred=lr.predict(x1_test)
+y1_pred
+
+from sklearn.metrics import mean_squared_error,root_mean_squared_error,mean_absolute_error
+mse=mean_squared_error(y1_test,y1_pred)
+mae=mean_absolute_error(y1_test,y1_pred)
+r2=r2_score(y1_test,y1_pred)
+rmse=root_mean_squared_error(y1_test,y1_pred)
+print(f"Mean Squared Error: {mse}")
+print(f"Mean Absolute Error: {mae}")
+print(f"R-squared: {r2}")
+print(f"Root Mean Squared Error: {rmse}")
+
+year = int(input("Enter year: "))
+km = float(input("Enter km driven: "))
+# initialize all dummy values as 0
+fuel_Diesel = 0
+fuel_Electric = 0
+fuel_LPG = 0
+fuel_Petrol = 0
+seller_type_Individual = 0
+seller_type_Trustmark_Dealer = 0
+transmission_Manual = 0
+owner_Second_Owner = 0
+owner_Third_Owner = 0
+owner_Fourth_Above_Owner = 0
+owner_Test_Drive_Car = 0
+
+# take category input
+fuel = input("Fuel: ").lower()
+if fuel == "diesel":
+    fuel_Diesel = 1
+elif fuel == "petrol":
+    fuel_Petrol = 1
+transmission = input("Transmission: ").lower()
+if transmission == "manual":
+    transmission_Manual = 1
+user_data = [[
+year,
+km,
+fuel_Diesel,
+fuel_Electric,
+fuel_LPG,
+fuel_Petrol,
+seller_type_Individual,
+seller_type_Trustmark_Dealer,\
+transmission_Manual,
+owner_Second_Owner,
+owner_Third_Owner,
+owner_Fourth_Above_Owner,
+owner_Test_Drive_Car
+]]
+prediction = lr.predict(user_data)
+print("Predicted Price:", prediction[0])
+

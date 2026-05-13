@@ -1,0 +1,68 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("CAR.csv")
+df
+
+df.shape
+
+df.describe()
+
+df.info()
+
+df.isnull().sum()
+
+df['km_driven'] = df['km_driven'].fillna(df['km_driven'].mean())
+df.isnull().sum()
+
+df = df.dropna()
+
+df.isnull().sum()
+
+df.shape
+
+df = df.drop("name",axis=1)
+df
+
+df.corr(numeric_only=True)
+
+plt.figure()
+plt.hist(df['selling_price'])
+plt.xlabel('Selling price of cars')
+plt.ylabel('frequency')
+plt.title("frequency of selling cars")
+plt.show()
+
+plt.figure()
+plt.scatter(df["year"],df["selling_price"])
+plt.xlabel("Year")
+plt.ylabel("Selling price")
+plt.title("Year vs Selling price")
+plt.show()
+
+plt.figure()
+plt.bar(df['fuel'],df['selling_price'])
+plt.xlabel("Fuel")
+plt.ylabel("selling_price")
+plt.title("Fuel type vs Selling price")
+plt.show()
+
+from numpy._core import numeric
+plt.figure()
+plt.pie(df["owner"].value_counts(),labels=df["owner"].unique(),startangle=90)
+plt.title("Pie chart")
+plt.show()
+
+plt.figure()
+plt.boxplot(df["year"])
+plt.title("Box Plot")
+plt.show()
+
+plt.figure()
+plt.stem(df["year"],df['selling_price'])
+plt.xlabel("year")
+plt.ylabel("Selling price")
+plt.title("Stem plot")
+plt.show()
+

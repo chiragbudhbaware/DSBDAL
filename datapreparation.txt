@@ -1,0 +1,66 @@
+import numpy as np
+import pandas as pd
+
+df = pd.read_csv("/content/dataset_Facebook.csv", sep=';')
+df
+
+df.isnull().sum()
+
+df.dtypes
+
+df.shape
+
+df.info()
+
+df["Paid"] = df["Paid"].fillna(df["Paid"].mean())
+df["like"] = df["like"].fillna(df["like"].mean())
+df["share"] = df["share"].fillna(df["share"].mean())
+
+df.isnull().sum()
+
+sub1 = df[df["Type"]== "Status"]
+sub1
+
+sub2 = df[(df["Type"]=="Photo") & (df["Post Month"]>10)]
+sub2
+
+sub3 = df[(df['Category']==2)]
+sub3
+
+sub4 = df[(df["Lifetime Post Consumptions"]>1000) & (df["Lifetime Engaged Users"]>860)]
+sub4
+
+sub5 = df.iloc[:7,:6]
+sub5
+
+sub6 = df[(df["Page total likes"] > 13500) & (df["Lifetime Engaged Users"]>860)]
+sub6
+
+sub7 = df[4:13]
+sub7
+
+sub8 = df.iloc[:4,:4]
+sub8
+
+sub9 = df.iloc[:4,3:14]
+sub9
+
+trans = df.transpose()
+trans
+
+merge_df1 = pd.concat([sub2,sub3], ignore_index="True")
+merge_df1
+
+df_merged = pd.merge(sub8,sub9, how="inner")
+df_merged
+
+merge = sub8.merge(sub9)
+merge
+
+pivot_df = df.pivot_table(
+    index="Post Month",
+    columns="Type",
+    values="Total Interactions",
+    aggfunc="mean"
+)
+pivot_df
