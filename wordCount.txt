@@ -61,3 +61,17 @@ FileInputFormat.addInputPath(job,new Path(args [0]));
 FileOutputFormat.setOutputPath(job,new Path(args[1]));
 System.exit(job.waitForCompletion(true)?0:1);
 }
+
+
+// Commands
+
+move to project -> right -> built path -> add external archieves -> other location
+-> Computer -> usr -> local -> hadoop -> share -> hadoop
+
+1. hdfs
+2. hadoop-hdfs-3.3.6.jar -> select  ctrl+ right
+   hadoop-hdfs-client-3.3.6.jar -> select -> open
+3. hdfs -> hadoop -> mapReduce -> hadoop-mapReduce-client-common-3.3.6.jar
+   hadoop-mapReduce-client-core-3.3.6.jar
+   hadoop-mapReduce-client-jobclient-3.3.6.jar -> open 
+4. hadoop -> common -> hadoop-common-3.3.6.jar -> open
